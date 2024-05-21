@@ -22,3 +22,10 @@ sentence_transformers
 PyPDF2
 langchain-objectbox
 langchain
+streamlit
+langchain
+langchain_community
+langchain_core
+faiss-cpu
+requests
+python-dotenv
