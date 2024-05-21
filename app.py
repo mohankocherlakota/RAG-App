@@ -31,7 +31,7 @@ if "vector" not in st.session_state:
 
 st.title("ChatGroq Demo")
 llm=ChatGroq(groq_api_key=groq_api_key,
-             model_name="mixtral-8x7b-32768")
+             model_name="Llama3-8b-8192")
 
 prompt=ChatPromptTemplate.from_template(
 """
