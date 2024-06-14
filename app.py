@@ -3,10 +3,11 @@ import os
 from langchain_groq import ChatGroq
 from langchain_community.document_loaders import WebBaseLoader
 # Old import
-# from langchain.embeddings import OllamaEmbeddings
+#from langchain.embeddings import OllamaEmbeddings
 
 # New import
-from langchain_community.embeddings import OllamaEmbeddings
+#from langchain_community.embeddings import OllamaEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings  # Using HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
@@ -21,13 +22,15 @@ load_dotenv()
 groq_api_key=os.environ['GROQ_API_KEY']
 
 if "vector" not in st.session_state:
-    st.session_state.embeddings=OllamaEmbeddings()
-    st.session_state.loader=WebBaseLoader("https://www.shankara.com/")
+    #st.session_state.embeddings=OllamaEmbeddings()
+    st.session_state.embeddings = HuggingFaceEmbeddings()
+    st.session_state.loader=WebBaseLoader("http://www.shankara.com/pages/blog")
     st.session_state.docs=st.session_state.loader.load()
-
+ 
     st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
     st.session_state.final_documents=st.session_state.text_splitter.split_documents(st.session_state.docs[:50])
-    st.session_state.vectors=FAISS.from_documents(st.session_state.final_documents,st.session_state.embeddings)
+    st.session_state.vectors = FAISS.from_documents(st.session_state.final_documents, st.session_state.embeddings)
+
 
 st.title("ChatGroq Demo")
 llm=ChatGroq(groq_api_key=groq_api_key,
